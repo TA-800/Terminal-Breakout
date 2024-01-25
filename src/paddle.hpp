@@ -10,13 +10,14 @@ class Paddle
   private:
     std::unique_ptr<Position> position;
     int direction = 0;
+    int m_paddleSize;
 
   public:
-    Paddle(int x, int y);
+    Paddle(int x, int y, int paddleSize);
     ~Paddle();
 
     void setDirectionOnInput(char direction);
-    void move();
+    void move(int maxX);
     void render(WINDOW *win);
 };
 
