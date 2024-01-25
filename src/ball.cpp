@@ -16,7 +16,7 @@ void Ball::setSpeed(int speed)
     this->speed = speed;
 }
 
-void Ball::move(int maxX, int maxY)
+void Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
 {
     // Flip directions if approaching walls
     if (position->m_x >= maxX - 1 && movingInDirection.x == 1)
@@ -31,14 +31,32 @@ void Ball::move(int maxX, int maxY)
     else if (position->m_y <= 1 && movingInDirection.y == -1)
         movingInDirection.y = 1;
 
+    // Check paddle collision
+    int paddleCollisionResult = checkPaddleCollision(paddleX, paddleY, paddleLength);
+    if (paddleCollisionResult != 0)
+    {
+        movingInDirection.y = -1;
+        movingInDirection.x = paddleCollisionResult;
+    }
+
     position->m_x += movingInDirection.x * speed;
     position->m_y += movingInDirection.y * speed;
 }
 
-bool Ball::checkCollision()
+int Ball::checkPaddleCollision(int paddleX, int paddleY, int paddleLength)
 {
-    // Check left wall
-    return false;
+    if (position->m_y == paddleY)
+    {
+        if (position->m_x >= paddleX && position->m_x <= paddleX + paddleLength)
+        {
+            if (position->m_x - paddleX <= paddleLength / 2)
+                return -1;
+            else
+                return 1;
+        }
+    }
+
+    return 0;
 }
 
 void Ball::render(WINDOW *win)

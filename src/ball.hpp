@@ -29,8 +29,8 @@ class Ball
   public:
     Ball(int x, int y);
     ~Ball();
-    void move(int maxX, int maxY);
-    bool checkCollision();
+    void move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength);
+    int checkPaddleCollision(int paddleX, int paddleY, int paddleLength);
     void render(WINDOW *win);
 
     void setSpeed(int speed);

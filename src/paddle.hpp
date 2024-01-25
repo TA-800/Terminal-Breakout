@@ -19,6 +19,21 @@ class Paddle
     void setDirectionOnInput(char direction);
     void move(int maxX);
     void render(WINDOW *win);
+
+    int getX()
+    {
+        return position->m_x;
+    }
+
+    int getY()
+    {
+        return position->m_y;
+    }
+
+    int getLength()
+    {
+        return m_paddleSize;
+    }
 };
 
 #endif // PADDLE_HPP

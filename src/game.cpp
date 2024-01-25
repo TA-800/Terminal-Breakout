@@ -8,7 +8,7 @@ Game::Game(WINDOW *win)
     getmaxyx(win, maxY, maxX);
 
     this->ball = std::make_unique<Ball>(4, 4);
-    this->paddle = std::make_unique<Paddle>(2, maxY - 2, 5);
+    this->paddle = std::make_unique<Paddle>(2, maxY - 6, 6);
 }
 
 // Add powerups.
@@ -22,7 +22,7 @@ Game::~Game()
 
 void Game::update(char input)
 {
-    ball->move(maxX, maxY);
+    ball->move(maxX, maxY, paddle->getX(), paddle->getY(), paddle->getLength());
     paddle->setDirectionOnInput(input);
     paddle->move(maxX);
 }
