@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "ball.hpp"
 #include <stdlib.h>
 
 Game::Game(WINDOW *win)
@@ -7,7 +8,7 @@ Game::Game(WINDOW *win)
     getmaxyx(win, maxY, maxX);
 
     this->ball = std::make_unique<Ball>(1, 1);
-    this->paddle = std::make_unique<Paddle>(maxX - 2, maxY - 2);
+    this->paddle = std::make_unique<Paddle>(2, maxY - 2);
 }
 
 // Add powerups.
@@ -22,6 +23,9 @@ Game::~Game()
 void Game::update(char input)
 {
     mvwprintw(win, 4, 5, "Input: %c", input);
+    /* ball->update(); */
+    paddle->setDirectionOnInput(input);
+    paddle->move();
 }
 
 void Game::render()

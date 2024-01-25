@@ -18,6 +18,8 @@ void getInput()
 {
     while (isRunning)
     {
+        // IMPORTANT: input is not cleared after reading.
+        // To do so, make sure to use mutexes to synchronize access to input
         input = wgetch(stdscr);
         if (input == 'q')
         {
@@ -34,22 +36,26 @@ int main()
     WINDOW *win = newwin(HEIGHT, WIDTH, 0, 0);
     refresh();
 
-    // Draws the box around the window
-    box(win, 0, 0);
-
     std::unique_ptr<Game> game = std::make_unique<Game>(win);
 
     // Start a new thread that waits for user input
     std::thread inputThread(getInput);
 
-    game->render();
-    wrefresh(win);
-
     while (isRunning)
     {
+        // Clear window
+        werase(win);
+
+        // Draw a box around the window
+        box(win, 0, 0);
+
+        // Update the game logic
         game->update(input);
+
+        // Render the game
         game->render();
         wrefresh(win);
+
         // Sleep for 100 milliseconds, effectively setting a framerate
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

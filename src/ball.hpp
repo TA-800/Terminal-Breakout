@@ -5,18 +5,19 @@
 #include <memory>
 #include <ncurses/ncurses.h>
 
+enum directionIn
+{
+    up,
+    down,
+    left,
+    right
+};
+
 class Ball
 {
     std::unique_ptr<Position> position;
 
     int direction[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
-    enum directionIn
-    {
-        up,
-        down,
-        left,
-        right
-    };
 
   public:
     Ball(int x, int y);

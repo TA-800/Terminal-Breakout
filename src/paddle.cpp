@@ -8,15 +8,20 @@ Paddle::~Paddle()
 {
 }
 
-void Paddle::move(int direction)
+void Paddle::setDirectionOnInput(char input)
+{
+    direction = input == 'a' ? -1 : input == 'd' ? 1 : direction;
+}
+
+void Paddle::move()
 {
     if (direction == 1)
     {
-        position->m_y++;
+        position->m_x++;
     }
     else if (direction == -1)
     {
-        position->m_y--;
+        position->m_x--;
     }
 }
 
