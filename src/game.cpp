@@ -19,8 +19,9 @@ Game::~Game()
     free(win);
 }
 
-void Game::update()
+void Game::update(char input)
 {
+    mvwprintw(win, 4, 5, "Input: %c", input);
 }
 
 void Game::render()

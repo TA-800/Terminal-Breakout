@@ -1,5 +1,9 @@
 #include "game.hpp"
 #include <ncurses/ncurses.h>
+#include <thread>
+
+bool isRunning = true;
+char input;
 
 void initUI()
 {
@@ -7,6 +11,19 @@ void initUI()
     cbreak();
     noecho();
     refresh();
+}
+
+// Get input in non-blocking mode in a separate thread
+void getInput()
+{
+    while (isRunning)
+    {
+        input = wgetch(stdscr);
+        if (input == 'q')
+        {
+            isRunning = false;
+        }
+    }
 }
 
 int main()
@@ -22,10 +39,23 @@ int main()
 
     std::unique_ptr<Game> game = std::make_unique<Game>(win);
 
+    // Start a new thread that waits for user input
+    std::thread inputThread(getInput);
+
     game->render();
     wrefresh(win);
 
-    getch();
+    while (isRunning)
+    {
+        game->update(input);
+        game->render();
+        wrefresh(win);
+        // Sleep for 100 milliseconds, effectively setting a framerate
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // Wait for the input thread to finish
+    inputThread.join();
 
     endwin();
     return 0;
