@@ -1,29 +1,39 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
+#define MAX_SPEED 5
+
 #include "position.hpp"
 #include <memory>
 #include <ncurses/ncurses.h>
 
-enum directionIn
+enum BallDirection
 {
-    up,
-    down,
-    left,
-    right
+    UP_RIGHT,
+    DOWN_RIGHT,
+    UP_LEFT,
+    DOWN_LEFT
 };
 
 class Ball
 {
     std::unique_ptr<Position> position;
+    struct movingInDirection
+    {
+        int x;
+        int y;
+    } movingInDirection = {1, 1};
 
-    int direction[4][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+    int speed = 1;
 
   public:
     Ball(int x, int y);
     ~Ball();
-    void move(directionIn dir);
+    void move(int maxX, int maxY);
+    bool checkCollision();
     void render(WINDOW *win);
+
+    void setSpeed(int speed);
 };
 
 #endif // !BALL_HPP
