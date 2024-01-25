@@ -12,16 +12,23 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
 # Main target
-all: $(BIN_DIR)/game
+EXECUTABLE = $(BIN_DIR)/main
+
+# Default target
+all: $(EXECUTABLE)
 
 # Rule to build the executable
-$(BIN_DIR)/game: $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o $@ $^
+$(EXECUTABLE): $(OBJ_FILES)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 # Rule to build object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(SRC_DIR)/%.hpp
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+# Rule to handle .cpp files without corresponding .hpp files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 # Clean target
 clean:
-	rm -f $(BUILD_DIR)/*.o $(BIN_DIR)/game
+	rm -f $(BUILD_DIR)/*.o $(EXECUTABLE)

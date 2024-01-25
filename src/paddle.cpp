@@ -22,5 +22,5 @@ void Paddle::move(int direction)
 
 void Paddle::render(WINDOW *win)
 {
-    mvwaddch(win, position->m_y, position->m_x, '|');
+    mvwaddch(win, position->m_y, position->m_x, '_');
 }

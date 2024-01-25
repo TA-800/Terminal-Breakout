@@ -1,0 +1,4 @@
+# ignore all files but keep the directory structure with this gitignore file
+*
+!.gitignore
+

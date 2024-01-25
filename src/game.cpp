@@ -6,8 +6,8 @@ Game::Game(WINDOW *win)
     this->win = win;
     getmaxyx(win, maxY, maxX);
 
-    this->ball = std::make_unique<Ball>(maxY / 2 - 2, maxX / 2 - 2);
-    this->paddle = std::make_unique<Paddle>(maxY - 2, maxX / 2 - 2);
+    this->ball = std::make_unique<Ball>(1, 1);
+    this->paddle = std::make_unique<Paddle>(maxX - 2, maxY - 2);
 }
 
 // Add powerups.
