@@ -16,6 +16,9 @@ void Ball::setSpeed(int speed)
     this->speed = speed;
 }
 
+// Flip directions after hitting a brick
+void Ball::changeDirectionOnBrickCollision(){};
+
 // Flip directions if approaching walls
 void Ball::changeDirectionsOnWallCollision(int maxX, int maxY)
 {
@@ -69,6 +72,24 @@ void Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
     // Move ball
     position->m_x += movingInDirection.x * speed;
     position->m_y += movingInDirection.y * speed;
+}
+
+bool Ball::collidesWith(int brickX, int brickY)
+{
+    bool hasCollided = false;
+
+    // Check if ball is within the bounds of the brick (x + length, y + height)
+    if (this->position->m_x >= brickX && this->position->m_x <= brickX + 4)
+    {
+        if (this->position->m_y >= brickY && this->position->m_y <= brickY + 2)
+        {
+            hasCollided = true;
+        }
+    }
+
+    // TODO: if hasCollided, change direction of ball
+
+    return hasCollided;
 }
 
 void Ball::render(WINDOW *win)

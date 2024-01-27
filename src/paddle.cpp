@@ -38,7 +38,6 @@ void Paddle::move(int maxX)
 
 void Paddle::render(WINDOW *win)
 {
-    /* mvwaddch(win, position->m_y, position->m_x, '_'); */
     for (int i = 0; i < m_paddleSize; i++)
     {
         mvwaddch(win, position->m_y, position->m_x + i, '_');

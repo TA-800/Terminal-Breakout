@@ -37,6 +37,10 @@ class Ball
     void render(WINDOW *win);
 
     void setSpeed(int speed);
+
+    bool collidesWith(int brickX, int brickY);
+
+    void changeDirectionOnBrickCollision();
 };
 
 #endif // !BALL_HPP
