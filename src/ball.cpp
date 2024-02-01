@@ -42,7 +42,7 @@ void Ball::changeDirectionOnBrickCollision(int brickX, int brickY, int brickLeng
 };
 
 // Flip directions if approaching walls
-void Ball::changeDirectionsOnWallCollision(int maxX, int maxY)
+bool Ball::changeDirectionsOnWallCollision(int maxX, int maxY)
 {
     // X axis
     if (position->m_x >= maxX - 1 && movingInDirection.x == 1)
@@ -52,10 +52,14 @@ void Ball::changeDirectionsOnWallCollision(int maxX, int maxY)
         movingInDirection.x = 1;
     // Y axis
     if (position->m_y >= maxY - 1 && movingInDirection.y == 1)
-        movingInDirection.y = -1;
+        /* movingInDirection.y = -1; */
+        return true;
 
     else if (position->m_y <= 1 && movingInDirection.y == -1)
         movingInDirection.y = 1;
+
+    // If the ball hasn't gone below the screen, return true
+    return false;
 }
 
 // Make ball bounce off paddle to the left if it hits the left side of the paddle and vice versa
@@ -77,10 +81,12 @@ int Ball::checkPaddleCollision(int paddleX, int paddleY, int paddleLength)
 }
 
 // Constantly move the ball after checking for collisions
-void Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
+bool Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
 {
     // Check wall collision
-    changeDirectionsOnWallCollision(maxX, maxY);
+    bool isBelow = changeDirectionsOnWallCollision(maxX, maxY);
+    if (isBelow)
+        return true;
 
     // Check paddle collision
     int paddleCollisionResult = checkPaddleCollision(paddleX, paddleY, paddleLength);
@@ -94,6 +100,9 @@ void Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
     // Move ball
     position->m_x += movingInDirection.x * speed;
     position->m_y += movingInDirection.y * speed;
+
+    // If the ball hasn't gone below the screen, return false
+    return false;
 }
 
 bool Ball::collidesWithBrick(int brickX, int brickY, int brickLength, int brickHeight)

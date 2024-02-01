@@ -30,9 +30,9 @@ class Ball
     Ball(int x, int y);
     ~Ball();
 
-    void changeDirectionsOnWallCollision(int maxX, int maxY);
+    bool changeDirectionsOnWallCollision(int maxX, int maxY);
     int checkPaddleCollision(int paddleX, int paddleY, int paddleLength);
-    void move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength);
+    bool move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength);
 
     void render(WINDOW *win);
 

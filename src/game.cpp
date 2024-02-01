@@ -29,9 +29,14 @@ Game::~Game()
     free(win);
 }
 
-void Game::update(char input)
+bool Game::update(char input)
 {
-    ball->move(maxX, maxY, paddle->getX(), paddle->getY(), paddle->getLength());
+    bool isBelow = ball->move(maxX, maxY, paddle->getX(), paddle->getY(), paddle->getLength());
+    if (isBelow)
+    {
+        // Game over
+        return true;
+    }
 
     for (auto &brick : bricks)
     {
@@ -49,6 +54,8 @@ void Game::update(char input)
 
     paddle->setDirectionOnInput(input);
     paddle->move(maxX);
+
+    return false;
 }
 
 void Game::render()

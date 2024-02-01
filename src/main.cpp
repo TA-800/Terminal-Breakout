@@ -50,7 +50,11 @@ int main()
         box(win, 0, 0);
 
         // Update the game logic
-        game->update(input);
+        bool isGameOver = game->update(input);
+        if (isGameOver)
+        {
+            isRunning = false;
+        }
 
         // Render the game
         game->render();
@@ -62,6 +66,17 @@ int main()
 
     // Wait for the input thread to finish
     inputThread.join();
+
+    werase(win);
+    box(win, 0, 0);
+
+    // Print game over message
+    mvwprintw(win, HEIGHT / 2, WIDTH / 2 - 5, "Game Over");
+
+    wrefresh(win);
+
+    // Wait for input to close the window
+    wgetch(win);
 
     endwin();
     return 0;

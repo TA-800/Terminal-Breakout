@@ -26,7 +26,7 @@ class Game
     Game(WINDOW *win);
     ~Game();
 
-    void update(char input);
+    bool update(char input);
     void render();
 };
 
