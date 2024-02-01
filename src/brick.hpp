@@ -27,6 +27,9 @@ class Brick
 
     void destroy();
     bool isDestroyed();
+
+    const int getLength() const;
+    const int getHeight() const;
 };
 
 #endif // BRICK_HPP

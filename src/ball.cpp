@@ -17,7 +17,29 @@ void Ball::setSpeed(int speed)
 }
 
 // Flip directions after hitting a brick
-void Ball::changeDirectionOnBrickCollision(){};
+void Ball::changeDirectionOnBrickCollision(int brickX, int brickY, int brickLength, int brickHeight)
+{
+
+    // If the ball hits the top or bottom of the brick, invert y
+
+    // First check if within x bounds of brick
+    if (position->m_x >= brickX && position->m_x <= brickX + brickLength)
+    {
+        // Then check if we've hit the top or bottom of the brick
+        if (position->m_y == brickY || position->m_y == brickY + brickHeight)
+            movingInDirection.y *= -1;
+    }
+
+    // If the ball hits the left or right of the brick, invert x
+
+    // First check if within y bounds of brick
+    if (position->m_y >= brickY && position->m_y <= brickY + brickHeight)
+    {
+        // Then check if we've hit the left or right of the brick
+        if (position->m_x == brickX || position->m_x == brickX + brickLength)
+            movingInDirection.x *= -1;
+    }
+};
 
 // Flip directions if approaching walls
 void Ball::changeDirectionsOnWallCollision(int maxX, int maxY)
@@ -74,20 +96,18 @@ void Ball::move(int maxX, int maxY, int paddleX, int paddleY, int paddleLength)
     position->m_y += movingInDirection.y * speed;
 }
 
-bool Ball::collidesWith(int brickX, int brickY)
+bool Ball::collidesWithBrick(int brickX, int brickY, int brickLength, int brickHeight)
 {
     bool hasCollided = false;
 
     // Check if ball is within the bounds of the brick (x + length, y + height)
-    if (this->position->m_x >= brickX && this->position->m_x <= brickX + 4)
+    if (this->position->m_x >= brickX && this->position->m_x <= brickX + brickLength)
     {
-        if (this->position->m_y >= brickY && this->position->m_y <= brickY + 2)
+        if (this->position->m_y >= brickY && this->position->m_y <= brickY + brickHeight)
         {
             hasCollided = true;
         }
     }
-
-    // TODO: if hasCollided, change direction of ball
 
     return hasCollided;
 }

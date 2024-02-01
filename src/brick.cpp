@@ -34,3 +34,13 @@ bool Brick::isDestroyed()
 {
     return destroyed;
 }
+
+const int Brick::getLength() const
+{
+    return length;
+}
+
+const int Brick::getHeight() const
+{
+    return height;
+}

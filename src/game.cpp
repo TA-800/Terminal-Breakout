@@ -1,6 +1,5 @@
 #include "game.hpp"
 #include "ball.hpp"
-#include <algorithm>
 #include <stdlib.h>
 
 Game::Game(WINDOW *win)
@@ -14,7 +13,7 @@ Game::Game(WINDOW *win)
     // Initialize bricks at random positions
     srand(time(NULL));
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 7; i++)
     {
         int x = rand() % (maxX - 10) + 1;
         int y = rand() % (maxY - 15) + 1;
@@ -24,10 +23,6 @@ Game::Game(WINDOW *win)
         bricks.push_back(std::make_unique<Brick>(x, y, length, height));
     }
 }
-
-// Add powerups.
-// 1. Add extra balls
-// 2. Increase paddle size
 
 Game::~Game()
 {
@@ -40,18 +35,15 @@ void Game::update(char input)
 
     for (auto &brick : bricks)
     {
-        /* TODO: Pass proper brick position instead of below */
-        int brickX = brick->getX();
-        int brickY = brick->getY();
+        if (brick->isDestroyed())
+            continue;
 
-        /* TODO: Include length and height of bricks in collision detection */
-        if (ball->collidesWith(brickX, brickY))
+        if (ball->collidesWithBrick(brick->getX(), brick->getY(), brick->getLength(), brick->getHeight()))
         {
-            /*  TODO: Change direction of ball */
-            ball->changeDirectionOnBrickCollision();
-
             // Remove brick from vector ( iterator invalidation )
             brick->destroy();
+
+            ball->changeDirectionOnBrickCollision(brick->getX(), brick->getY(), brick->getLength(), brick->getHeight());
         }
     }
 

@@ -38,9 +38,9 @@ class Ball
 
     void setSpeed(int speed);
 
-    bool collidesWith(int brickX, int brickY);
+    bool collidesWithBrick(int brickX, int brickY, int brickLength, int brickHeight);
 
-    void changeDirectionOnBrickCollision();
+    void changeDirectionOnBrickCollision(int brickX, int brickY, int brickLength, int brickHeight);
 };
 
 #endif // !BALL_HPP
