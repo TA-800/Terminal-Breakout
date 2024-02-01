@@ -18,8 +18,6 @@ void getInput()
 {
     while (isRunning)
     {
-        // IMPORTANT: input is not cleared after reading.
-        // To do so, make sure to use mutexes to synchronize access to input
         input = wgetch(stdscr);
         if (input == 'q')
         {
@@ -64,19 +62,17 @@ int main()
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
-    // Wait for the input thread to finish
-    inputThread.join();
-
     werase(win);
     box(win, 0, 0);
 
     // Print game over message
     mvwprintw(win, HEIGHT / 2, WIDTH / 2 - 5, "Game Over");
+    mvwprintw(win, HEIGHT / 2 + 1, WIDTH / 2 - 8, "Press q to quit");
 
     wrefresh(win);
 
-    // Wait for input to close the window
-    wgetch(win);
+    // Wait for the input thread to finish
+    inputThread.join();
 
     endwin();
     return 0;
